@@ -1,0 +1,97 @@
+/* Implement a list library (singlylist.h) for a singly linked list of integer
+With the operations create, delete specific element and display. Write a
+menu driven program to call these operations */
+
+
+
+typedef struct node
+{
+	int data;
+	struct node *next;
+	}node;
+	node *create(node *list)
+	{
+	int n,i;
+	node *temp,*newnode;
+	printf("enter limit:");
+	scanf("%d",&n);
+	for(i=0;i<n;i++)
+	{
+	newnode=(node*)malloc(sizeof(node));
+	printf("enter value:");
+	scanf("%d",&newnode->data);
+	newnode->next=NULL;
+	if(list==NULL)
+	{
+	list=newnode;
+	temp=newnode;
+	}
+	else
+	{
+	temp->next=newnode;
+	temp=newnode;
+	}
+}
+	return list;
+	}
+	void disp(node *list)
+	{
+	node *temp;
+	for(temp=list;temp!=NULL;temp=temp->next)
+	{
+	printf("%d\t",temp->data);
+	}
+}
+	node *del(node *list,int pos)
+	{
+	node *temp,*temp1;
+	int i;
+	if(pos==1)
+	{
+	temp=list;
+	list=list->next;
+	free(temp);
+	return list;
+	}
+	else
+	{
+	for(i=1,temp=list;i<pos-1 &&temp->next!=NULL;temp=temp->next,i++);
+	temp1=temp->next;
+	temp->next=temp1->next;
+	free(temp1);
+	return list;
+	}
+	}
+	
+
+
+
+
+ #include<stdio.h>
+#include<stdlib.h>
+#include"a59.h"
+int main()
+{
+	node *list=NULL;
+	int ch,pos,num;
+	do
+	{
+	printf("\n 1-create \n 2-disp \n 3-del:");
+	printf("\n enter choice :");
+	scanf("%d",&ch);
+	switch(ch)
+	{
+	case 1:
+	list=create(list);
+	break;
+	case 2:
+	disp(list);
+	break;
+	case 3:
+	printf("enter position:");
+	scanf("%d",&pos);
+	list=del(list,pos);
+	break;
+	}
+}while(ch<4);
+}
