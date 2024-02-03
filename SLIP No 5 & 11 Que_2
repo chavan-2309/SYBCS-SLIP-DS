@@ -1,0 +1,144 @@
+/* Implement a priority queue library (PriorityQ.h) of integers using a static
+implementation of the queue and implement the below two operations.
+1) Add an element with its priority into the queue.
+2) Delete an element from queue according to its priority. */
+
+
+
+
+
+
+#define MAX 5
+ struct quque
+ {
+ 	int pri_que[MAX];
+	int front, rear;
+ }q;
+ void init()
+{
+    q.front = q.rear = -1;
+}
+void insert_by_priority(int data)
+{
+    if (q.rear >= MAX - 1)
+    {
+        printf("\nQueue overflow no more elements can be inserted");
+        return;
+    }
+    if ((q.front == -1) && (q.rear == -1))
+    {
+        q.front++;
+        q.rear++;
+        q.pri_que[q.rear] = data;
+        return;
+    }    
+    else
+        check(data);
+    q.rear++;
+}
+ int check(int data)
+{
+    int i,j;
+ 
+    for (i = 0; i <= q.rear; i++)
+    {
+        if (data >= q.pri_que[i])
+        {
+            for (j = q.rear + 1; j > i; j--)
+            {
+                q.pri_que[j] = q.pri_que[j - 1];
+            }
+            q.pri_que[i] = data;
+            return;
+        }
+    }
+    q.pri_que[i] = data;
+} 
+void delete_by_priority(int data)
+{
+    int i;
+ 
+    if ((q.front==-1) && (q.rear==-1))
+    {
+        printf("\nQueue is empty no elements to delete");
+        //return;
+    }
+ 
+    for (i = 0; i <= q.rear; i++)
+    {
+        if (data == q.pri_que[i])
+        {
+            for (; i < q.rear; i++)
+            {
+                q.pri_que[i] = q.pri_que[i + 1];
+            }
+ 
+        q.pri_que[i] = -99;
+        q.rear--;
+ 
+        if (q.rear == -1) 
+            q.front = -1;
+       // return;
+        }
+    }
+    printf("\n%d not found in queue to delete", data);
+}
+ void display_pqueue()
+{
+    if ((q.front == -1) && (q.rear == -1))
+    {
+        printf("\nQueue is empty");
+        return;
+    }
+ 
+    for (; q.front <= q.rear; q.front++)
+    {
+        printf(" %d ", q.pri_que[q.front]);
+    }
+ 
+    q.front = 0;
+}
+ 
+
+
+
+
+
+
+#include <stdio.h>
+#include <stdlib.h>
+#include"a31.h" 
+#define MAX 5
+int main()
+{
+	int n, ch;
+	init();
+ 	do
+ 	{
+    printf("\n1 - Insert an element into queue");
+    printf("\n2 - Delete an element from queue");
+    printf("\n3 - Display queue elements")
+        printf("\nEnter your choice : ");    
+        scanf("%d", &ch);
+ 
+        switch (ch)
+        {
+        case 1: 
+            printf("\nEnter value to be inserted : ");
+            scanf("%d",&n);
+            insert_by_priority(n);
+            break;
+        case 2:
+            printf("\nEnter value to delete : ");
+            scanf("%d",&n);
+            delete_by_priority(n);
+            break;
+        case 3: 
+            display_pqueue();
+            break;
+        default: 
+            printf("\nChoice is incorrect, Enter a correct choice");
+        }
+    }while(ch<4);
+}
+ 
